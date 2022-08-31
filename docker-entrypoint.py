@@ -11,7 +11,7 @@ def isodatetime():
 
 def stable_diffusion(prompt, samples, height, width, steps, scale, seed, half):
     model_name = "CompVis/stable-diffusion-v1-4"
-    device = "cpu"
+    device = "cuda"
 
     dtype, rev = (torch.float16, "fp16") if half else (torch.float32, "main")
 
