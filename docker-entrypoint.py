@@ -11,7 +11,7 @@ def isodatetime():
 
 def stable_diffusion(prompt, samples, height, width, steps, scale, seed, half):
     model_name = "CompVis/stable-diffusion-v1-4"
-    device = "cuda"
+    device = "cpu"
 
     dtype, rev = (torch.float16, "fp16") if half else (torch.float32, "main")
 
@@ -23,7 +23,7 @@ def stable_diffusion(prompt, samples, height, width, steps, scale, seed, half):
     pipe = StableDiffusionPipeline.from_pretrained(
         model_name, torch_dtype=dtype, revision=rev, use_auth_token=token
     ).to(device)
-
+    pipe.safety_checker = lambda images, clip_input: (images, False)
     print("loaded models after:", isodatetime())
 
     generator = torch.Generator(device=device).manual_seed(seed)
